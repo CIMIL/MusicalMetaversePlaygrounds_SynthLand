@@ -1,12 +1,14 @@
 {
-  "name": "Musical-Metaverse-Playground",
+  "name": "naf-tonejs",
   "version": "1.0.0",
-  "description": "Playgrounds for the MM in WebXR",
+  "description": "My first multi-user virtual reality",
   "scripts": {
-    "start": "node ./server/easyrtc-server.js"
+      "start": "node ./server/easyrtc-server.js"
   },
-  "author": "CIMIL LAB - Alberto Boem",
+  "author": "Alberto_Boem",
   "dependencies": {
-    "networked-aframe": "^0.8.2"
+      "debugout.js": "^1.1.0",
+      "networked-aframe": "^0.10.0"
   }
 }
+
