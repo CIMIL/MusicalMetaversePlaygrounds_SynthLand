@@ -1,0 +1,40 @@
+.actions {
+  position: absolute;
+  display: flex;
+  bottom: 3%;
+  left: 3%;
+}
+
+#rms {
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  background: transparent;
+  height: 40px;
+  width: 130px;
+  margin-right: 10px;
+}
+
+#toggle-audio {
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  background: transparent;
+  height: 40px;
+  width: 130px;
+  margin-right: 10px;
+}
+
+.button {
+  cursor: pointer;
+  background: #fff;
+  height: 40px;
+  width: 130px;
+  border-radius: 10px;
+  margin-right: 10px;
+  font-weight: 700;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
