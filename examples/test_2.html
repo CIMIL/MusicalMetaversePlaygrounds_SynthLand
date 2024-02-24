@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Tonejs in NAframe</title>
+    <meta name="description" content="Networked Aframe + Tone.js">
+    <link rel="shortcut icon" href="/img/icon.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+    <!--<script src="https://unpkg.com/socket.io-client@^2.4.0/dist/socket.io.js"></script>-->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <script src="/dist/networked-aframe.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+    <script src="https://unpkg.com/tone@~14.7.77"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script
+        src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+
+    <script src="https://cdn.rawgit.com/jujunjun110/aframe-crawling-cursor/master/dist/aframe-crawling-cursor.min.js"></script>
+
+    <!--instanced mesh https://github.com/diarmidmackenzie/instanced-mesh-->
+    <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/instanced-mesh@v0.7.0/src/instanced-mesh.min.js"></script>
+
+
+    <script src="/js/spawn-in-circle.component.js"></script>
+    <script src="/js/musicComponents.js"></script>
+    <script src="/js/messageManager.js"></script>
+    <script src="/js/positionManager.js"></script>
+    <!--<script src="/js/handTrackerManager.js"></script>-->
+    <script src="/js/persistent-p2p.component.js"></script>
+
+    <script src="/js/random-color.js"></script>
+
+    <!--<script src="/js/sequencer.js"></script>-->
+
+    <!-- Extras - NAF options -->
+    
+
+    <!--    used for flying in this demo  -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script> 
+    <script>
+        // Hypnos-phi/aframe-extras@37fd255 is https://github.com/n5ro/aframe-extras/pull/373
+        // Also waiting https://github.com/n5ro/aframe-extras/pull/377 to be merged
+        // Redefine the alias for now:
+        THREE.Math = THREE.MathUtils;
+      </script>
+      <script src="https://cdn.jsdelivr.net/gh/Hypnos-phi/aframe-extras@37fd255/dist/aframe-extras.controls.min.js"></script>
+
+    <!--<script src="../server/easyrtc-server.js"></script>-->
+
+
+    <!----->
+
+
+    <!--TEST-->
+
+    <script>
+        AFRAME.registerComponent('bodycheck', {
+        
+        init: function () {
+            var el = this.el;      // Reference to the component's entity
+            el.setAttribute('rotation');
+        },
+
+        tick: function () {
+
+            
+            //if (!this.raycaster) { return; }  // Not intersecting.
+
+            //let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+
+            //console.log(this.raycaster.components['raycaster'].intersectedEls)
+            
+            //if (!intersection) { return; }
+            //console.log(intersection.point);
+            
+        }
+        });
+    </script>
+
+    <!--DUMMY COLLIDER CHECK-->
+    <script>
+        AFRAME.registerComponent('collider-check', {
+        dependencies: ['raycaster'],
+        
+        init: function () {
+            /*
+            var getCursor = document.getElementById('sceneCursor');
+            var checkit = false;
+            var correctPosition = getCursor.getAttribute('rotation');
+
+            var data = this.data;  // Component property values
+            var el = this.el;      // Reference to the component's entity
+            // Use events to figure out what raycaster is listening so we don't have to
+            // hardcode the raycaster.
+            this.el.addEventListener('raycaster-intersected', function() {
+                //console.log(correctPosition);
+            //this.raycaster = evt.detail.el;
+            getCursor.setAttribute('scale', {x: 1, y: 1, z:0}); //change with rotatiom
+            getCursor.object3D.rotation.x = -45;
+            //getCursor.object3D.rotation.set(0, 0, 90);
+            //el.object3D.rotation.x += Math.PI;
+            //console.log(evt.detail.el);
+
+            });
+            this.el.addEventListener('raycaster-intersected-cleared', function() {
+            this.raycaster = null;
+            //getCursor.object3D.rotation.set(0, 0, 0);
+            getCursor.setAttribute('scale', {x: 0, y: 0, z:0}); //change with rotation
+            getCursor.object3D.rotation.x = 0;
+            });
+            if(this.raycaster == null){
+                //getCursor.object3D.rotation.set(0, 0, 0);
+                getCursor.setAttribute('scale', {x: 0, y: 0, z:0}); //change with rotation
+                getCursor.object3D.rotation.x = 0;
+            }
+            */
+
+            //getCursor.setAttribute('scale', {x: 0.5, y: 0.5, z:0.5}); //change with rotation
+            //getCursor.object3D.rotation.x = 0;
+
+            var getCursor = document.getElementById('sceneCursor');
+            var checkit = false;
+            var correctPosition = getCursor.getAttribute('scale');
+
+            var data = this.data;  // Component property values
+            var el = this.el;      // Reference to the component's entity
+
+            //getCursor.object3D.rotation.x = 0;
+            this.el.addEventListener('raycaster-intersected', evt => {
+                this.raycaster = evt.detail.el;
+                let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+                console.log(`raycaster ${this.el.id} intersected!!!`);
+                getCursor.setAttribute('scale', {x: 0.1, y: 0.1, z: 0.1}); ////prova scale!
+                /*var ello = document.createElement('a-cylinder');
+                document.querySelector('a-scene').appendChild(ello);
+                ello.setAttribute('position', {x:1,y:1,z:1});
+                ello.setAttribute.rotation.x = 0;
+                ello.setAttribute.rotation.y = 0;
+                ello.setAttribute.rotation.z = 0;
+                ello.setAttribute("id", "testit");*/
+                //getCursor.object3D.rotation.x = -60;
+                //getCursor.object3D.rotation.y = 0;
+                //getCursor.object3D.rotation.z = 0;
+            /*
+            if(intersection.distance < 2){
+                getCursor.object3D.rotation.x = 45;
+                getCursor.object3D.rotation.y = 0;
+                getCursor.object3D.rotation.z = 0;
+                testit = 1;
+                console.log("????????? 1 " + testit);
+
+            }else{
+                getCursor.object3D.rotation.x = 0;
+                getCursor.object3D.rotation.y = 0;
+                getCursor.object3D.rotation.z = 0;
+                testit = 1;
+                
+                console.log("????????? 2 " + testit);
+            }*/
+            });
+            
+            this.el.addEventListener('raycaster-intersected-cleared', evt => {
+                //getCursor.object3D.rotation.x = 0;
+                //getCursor.object3D.rotation.y = 0;
+                //getCursor.object3D.rotation.z = 0;
+                //testit = 2;
+                //console.log("????????? 2 " + testit);
+                //var sphere = document.querySelector('a-scene').getAttribute("i");
+                //this.el.removeObject3D('testit');
+                getCursor.setAttribute('scale', {x: 0.05, y: 0.05, z: 0.05});
+                console.log(`raycaster ${this.el.id} cleared!!!`);
+            });
+
+            
+        },
+
+        tick: function () {
+            //if (!this.raycaster) { return; }  // Not intersecting.
+
+            //let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+
+            //console.log(this.raycaster.components['raycaster'].intersectedEls)
+            
+            //if (!intersection) { return; }
+            //console.log(intersection.point);
+
+            var switched = false;
+
+            var getCursor = document.getElementById('sceneCursor');
+            var checkit = false;
+            var correctPosition = getCursor.getAttribute('rotation');
+
+            var data = this.data;  // Component property values
+            var el = this.el;      // Reference to the component's entity
+
+            var testit =0;
+
+            
+
+            
+            /*
+            this.el.addEventListener('raycaster-intersected', evt => {
+                //console.log(correctPosition);
+                switched = true;
+            this.raycaster = evt.detail.el;
+            let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+            console.log(">>>>>>>> " + "a " + intersection.distance);
+            if(intersection.distance > 0){
+                //switched = true;
+                getCursor.object3D.rotation.x = 45;
+                getCursor.object3D.rotation.y = 0;
+                getCursor.object3D.rotation.z = 0;
+                //console.log(">>>>>>>> " + "b");
+            }
+               // getCursor.setAttribute('scale', {x: 0.1, y: 0.1, z:0.1}); //change with rotatiom 
+                //console.log("5555: " + intersection.distance);
+                //getCursor.object3D.rotation.x = 45;
+                //switched!=switched;
+            else{
+                //getCursor.setAttribute('scale', {x: 0.05, y: 0.05, z:0.05}); //change with rotation
+                //getCursor.object3D.rotation.x = 0;
+                //getCursor.object3D.rotation.y = 0;
+                //getCursor.object3D.rotation.z = 0;
+                //switched!=switched;
+                //console.log(">>>>>>>> " + "c");
+            }
+            //}
+            
+            
+            //getCursor.object3D.rotation.set(0, 0, 90);
+            //el.object3D.rotation.x += Math.PI;
+            //console.log(evt.detail.el);
+
+            });
+            this.el.addEventListener('raycaster-intersected-cleared', evt => {
+            //this.raycaster = null;
+            //getCursor.object3D.rotation.set(0, 0, 0);
+            //getCursor.setAttribute('scale', {x: 0.05, y: 0.05, z:0.05}); //change with rotation
+            getCursor.object3D.rotation.x = 0;
+            getCursor.object3D.rotation.y = 0;
+            getCursor.object3D.rotation.z = 0;
+            switched = false;
+            //this.raycaster = evt.detail.el;
+            //let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+            console.log(">>>>>>>> " + "b " + intersection.distance);
+            
+            });*/
+            //if(this.raycaster == null){
+                //getCursor.object3D.rotation.set(0, 0, 0);
+                //getCursor.setAttribute('scale', {x: 0.05, y: 0.05, z:0.05}); //change with rotation
+                //getCursor.object3D.rotation.x = 0;
+            //}
+            /*
+            if(switched == true){
+                getCursor.setAttribute('scale', {x: 0.1, y: 0.1, z:0.1});
+                getCursor.object3D.rotation.x = 45;
+            }else if(switched == false){
+                getCursor.setAttribute('scale', {x: 0.05, y: 0.05, z:0.05});
+                getCursor.object3D.rotation.x = 0;
+            }
+            */
+            
+        }
+        });
+    </script>
+    <!----->
+
+    <!-- generte tiles on the floor to make the raycast working....-->
+    <script>
+        AFRAME.registerComponent('mytest', {
+          schema: {
+            
+          },
+
+          init: function() {
+            const myscene = document.querySelector('a-scene');
+            for ( let i = 0; i < 10; i ++  ){
+                
+                //mesh = new THREE.Mesh( geometry, material );
+                var mesh = document.createElement('a-box');
+
+                for ( let a = 0; a < 10; a ++  ){
+
+                    mesh.setAttribute('position', {x:i*2, y:0, z:a*2});
+
+                }
+
+                
+
+                mesh.setAttribute('height', 0.5);
+                mesh.setAttribute('width', 5);
+                mesh.setAttribute('depth', 5);
+                mesh.setAttribute('id', 'mesh-test');
+                
+                myscene.appendChild(mesh);
+            
+            }
+                        }
+                        });
+    </script>
+
+    <script>
+        AFRAME.registerComponent('change-color-on-hover', {
+          schema: {
+            color: {default: 'yellow'}
+          },
+
+          init: function() {
+            var getCursor = document.getElementById('myCursor');
+            var data = this.data;  // Component property values
+            var el = this.el;      // Reference to the component's entity
+            var defaultColor = el.getAttribute('material').color;
+            el.addEventListener('mouseleave', function() {
+                getCursor.setAttribute('color', defaultColor);
+            });
+            el.addEventListener('mouseenter', function() {
+                getCursor.setAttribute('color', data.color);
+            });
+
+            }
+            });
+            /*
+          init: function () {
+            var data = this.data;
+            var el = this.el;  // <a-box>
+            var defaultColor = this.el.getAttribute('color'); //this.el
+            console.log("yo " + defaultColor);
+            el.addEventListener('mouseenter', function () {     //el mouseleave
+                el.setAttribute('color', data.color); //el
+            });
+      
+            el.addEventListener('mouseleave', function () {  //el
+                el.setAttribute('color', defaultColor); //el
+            });
+          }
+        });
+        */
+      </script>
+
+
+<script>
+    AFRAME.registerComponent('remove-listener', {
+      schema: {
+        color: {default: 'yellow'}
+      },
+
+      init: function() {
+        var getCursor = document.getElementById('myCursor');
+        var data = this.data;  // Component property values
+        var el = this.el;      // Reference to the component's entity
+        this.el.removeEventListener("mouseenter",this.doStuff);
+      }
+        });
+        /*
+      init: function () {
+        var data = this.data;
+        var el = this.el;  // <a-box>
+        var defaultColor = this.el.getAttribute('color'); //this.el
+        console.log("yo " + defaultColor);
+        el.addEventListener('mouseenter', function () {     //el mouseleave
+            el.setAttribute('color', data.color); //el
+        });
+  
+        el.addEventListener('mouseleave', function () {  //el
+            el.setAttribute('color', defaultColor); //el
+        });
+      }
+    });
+    */
+  </script>
+
+<!--CHANGE COLOR ON HOVER BOX-->
+<script>
+    AFRAME.registerComponent('change-color-on-hover-box', {
+      schema: {
+        color: {default: 'blue'}
+      },
+  
+      init: function () {
+        var data = this.data;
+        var el = this.el;  // <a-box>
+        var defaultSize = el.getAttribute('material').color;
+  
+        el.addEventListener('mouseenter', function () {
+          el.setAttribute('color', data.color);
+        });
+  
+        el.addEventListener('mouseleave', function () {
+          el.setAttribute('color', defaultSize);
+        });
+      }
+    });
+  </script>
+
+
+<script>
+    AFRAME.registerComponent('my-change-color-on-hover-B', {
+      schema: {
+        color: {default: 'blue'}
+      },
+  
+      init: function () {
+        var data = this.data;
+        var el = this.el;  // <a-box>
+        var defaultSize = el.getAttribute('material').color;
+
+        //var camera = document.querySelector('#spheretest').components.material.material;
+
+  
+        el.addEventListener('mouseenter', function () {
+            el.setAttribute('material', 'color', 'blue');
+        });
+  
+        el.addEventListener('mouseleave', function () {
+            el.setAttribute('material', 'color', 'yellow');
+        });
+      }
+    });
+</script>
+
+
+<!---- ok       -->
+<script>
+    AFRAME.registerComponent('my-change-color-on-hover-a', {
+      schema: {
+        color: {default: 'blue'}
+        
+      },
+  
+      init: function () {
+        var data = this.data;
+        var el = this.el;  // <a-box>
+
+        //var ids = document.querySelector('zidtest');
+        var number = el.getAttribute("material");
+
+        el.addEventListener('mouseenter', function () {
+            el.setAttribute('material', 'color', 'red');
+            console.log("iuyuihi " + number.color);
+          
+        });
+        el.addEventListener('mouseleave', function () {
+            el.setAttribute('material', 'color', 'orange');
+            console.log("iuyuihi " + number.color);
+          
+        });
+      }
+    });
+  </script>
+
+<!-- CHANGE OPACITY ON HOVER-->
+<script>
+    AFRAME.registerComponent('change-opacity-on-hover', {
+      schema: {
+        color: {default: 'blue'}
+      },
+  
+      init: function () {
+        var data = this.data;
+        var el = this.el;  
+
+        var number = el.getAttribute("material");
+
+        el.addEventListener('mouseenter', function () {
+            //console.log("iuyuihi " + number.opacity);
+            el.setAttribute('material', 'opacity', 0.5);
+          
+        });
+        el.addEventListener('mouseleave', function () {
+            //el.setAttribute('material', 'color', 'orange');
+            console.log("iuyuihi " + number.color);
+            el.setAttribute('material', 'opacity', 0.1);
+          
+        });
+      }
+    });
+  </script>
+
+<!-- CHANGE COLOR ON HOVER (entity + glb file)-->
+<script>
+    AFRAME.registerComponent('change-color-on-hover-entity', {
+      schema: {
+        initialColor: {default: 'white'},
+        color: {default: 'white'}
+      },
+  
+      init: function () {
+        var data = this.data;
+        var el = this.el;  
+
+        var defaultMaterial = el.getAttribute('material');
+
+        el.addEventListener('mouseenter', function () {
+            console.log("iuyuihi " + defaultMaterial.color);
+            el.setAttribute('material', 'color', data.color);
+          
+        });
+        el.addEventListener('mouseleave', function () {
+            //console.log("iuyuihi " + number.color);
+            el.setAttribute('material', 'color', data.initialColor);
+          
+        });
+      }
+    });
+  </script>
+
+ 
+
+
+        <script>
+        // Component to change to random color on click.
+        AFRAME.registerComponent('cursor-listener', {
+        init: function () {
+            var COLORS = ['red', 'green', 'blue'];
+            this.el.addEventListener('click', function (evt) {
+            var randomIndex = Math.floor(Math.random() * COLORS.length);
+            this.setAttribute('material', 'color', COLORS[randomIndex]);
+            console.log('I was clicked at: ', evt.detail.intersection.point);
+            });
+        }
+        });
+        </script>
+
+      <!--------------------->
+
+  
+    
+    <script>NAF.options.updateRate = 15; //default 15, around 10-20 for multiusers...1000ms /30 = 33.3</script> 
+    <!-- Lerp -->
+    <script>NAF.options.useLerp = true;</script>
+
+    
+
+    <script>
+        
+        // always register components before your scene
+      AFRAME.registerComponent('tracked-vr-hands', {
+        onEnterVR() {
+          if (AFRAME.utils.device.isMobile()) return; // exclude e.g. cardboard, which lacks tracked controllers
+          if (document.getElementById('my-tracked-right-hand')) return; // don't add them in more than once!
+          // add these with JS:
+          // <a-entity hand-controls="hand:left" networked="template:#left-hand-template;attachTemplateToLocal:true;"></a-entity>
+          // <a-entity hand-controls="hand:right" networked="template:#right-hand-template;attachTemplateToLocal:true;"></a-entity>
+          ['left', 'right'].forEach((side) => {
+            const el = document.createElement('a-entity');
+            el.setAttribute('hand-controls', { hand: side });
+            el.setAttribute('networked', { template: `#${side}-hand-template`, attachTemplateToLocal: false });
+            el.setAttribute('id', `my-tracked-${side}-hand`);
+            // note that the ID will be applied to THIS client's hands,
+            // but not other connected clients,
+            // and not on the machine of other connected clients
+            this.el.appendChild(el);
+          });
+        },
+        init() {
+          this.el.sceneEl.addEventListener('enter-vr', this.onEnterVR.bind(this));
+          // future improvements:
+          // pick up hand-controls events
+          // https://github.com/aframevr/aframe/blob/b164623dfa0d2548158f4b7da06157497cd4ea29/docs/components/hand-controls.md
+          // and broadcast the matching gestures to other connected clients
+          // possibly trigger the animation on the model itself using animation-mixer:
+          // https://github.com/n5ro/aframe-extras/tree/master/src/loaders
+          // could add as 'networked-hands' component within repo
+        }
+      });
+
+        // see issue https://github.com/networked-aframe/networked-aframe/issues/267
+
+        NAF.schemas.getComponents = (template) => {
+            if (!NAF.schemas.hasTemplate("#avatar-template")) {
+                NAF.schemas.add({
+                    template: '#avatar-template',
+                    components: [
+                        'position',
+                        'rotation',
+                        {
+                            selector: '.head',
+                            component:'material',
+                           
+                            property: 'color'
+                        }
+                    ]
+                });
+            }
+            if (!NAF.schemas.hasTemplate("#cube-template")) {
+                NAF.schemas.add({
+                    template: '#cube-template',
+                    components: [
+                        "position",
+                        "material"
+                    ]
+                });
+            }
+            if (!NAF.schemas.hasTemplate("#gui-template")) {
+                NAF.schemas.add({
+                    template: '#gui-template',
+                    components: [
+                        "position",
+                        "material",
+                        "id"
+                    ]
+                });
+            }
+            const components = NAF.schemas.getComponentsOriginal(template);
+            return components;
+        }
+    </script>
+
+
+
+
+
+</head>
+
+<body>
+
+    <a-scene persistent-p2p networked-scene="
+                          room: persistent-peer-to-peer; 
+                          debug: true; 
+                          audio: true; 
+                          adapter: easyrtc;
+                          ">
+
+        <!-- socketio //// package.json - "start": "node ./server/socketio-server.js"-->
+        <!-- easyrtc //// package.json "start": "node ./server/easyrtc-server.js" -->
+        
+                          
+        <!--movement-controls="fly:true;"-->
+
+        <!-- tracked-vr-hands-->
+        <a-entity 
+            id="cameraRig" 
+            movement-controls="speed:0.3;" 
+            tracked-vr-hands
+            spawn-in-circle="radius:3" 
+            networked="template:#camera-rig-template;">
+        
+
+                
+        <!--  User + Camera  Moved over assets to prevent the injection of another camera  -->
+        <!-- put camera -->
+        <a-entity id="player" 
+            networked="template: #avatar-template; attachTemplateToLocal: false;" 
+            camera
+            position="0 1.6 0" 
+            position-listener 
+            
+            > <!--         spawn-in-circle="radius:3" movement-controls="fly:true;" wasd-controls look-controls position-listener
+                tracked-vr-hands --> <!--click-->
+
+            <!--<a-cursor color="yellow" intersection-spawn="event: click; template: #cube-template; template2: #gui-template"></a-cursor>-->
+            
+            <!--<a-entity>
+                <a-cursor color="yellow" intersection-spawn="event: click; template: #cube-template; template2: #gui-template">
+            <a-animation begin="click" easing="ease-in" attribute="scale"
+                fill="forwards" from="0.2 0.2 0.2" to="1 1 1" dur="150"></a-animation>
+            <a-animation begin="fusing" easing="ease-in" attribute="scale"
+                fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="1500"></a-animation>
+            </a-entity>-->
+
+            <!--animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 0.25 0.25 0.25"-->
+            <!--animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 0.25 0.25 0.25; to: 0.01 0.01 0.01"-->
+            
+
+            <!--DUMMY RAYCAST-->
+            <a-entity cursor="fuse: false; maxDistance: 1; timeout: 100"
+            raycaster="far: 2; interval: 1000; objects: .doo"></a-entity>
+
+
+
+            <a-entity 
+            cursor="fuse: false; maxDistance: 1; timeout: 500"
+            
+            position="0 0 -3"
+            geometry="primitive: ring"
+            material="color: yellow; shader: flat"
+            scale="0.05 0.05 0.05"
+            rotation = "0 0 0"
+            id="sceneCursor"
+
+            animation__press="property: scale; startEvents: mousedown; easing: easeInCubic; dur: 100; from: 0.05 0.05 0.05; to: 0.01 0.01 0.01; dir: alternate"
+            animation__pressCol="property: components.material.material.color;
+            type: color; startEvents: mousedown; easing: easeInCubic; dur: 100; from: yellow; to: orange; dir: alternate"
+
+            animation__release="property: scale; startEvents: mouseup; easing: easeInCubic; dur: 100; from: 0.01 0.01 0.01; to: 0.05 0.05 0.05; dir: alternate"
+            animation__releaseCol="property: components.material.material.color;
+            type: color; startEvents: mouseup; easing: easeInCubic; dur: 100; from: orange; to: yellow; dir: alternate"
+
+            intersection-spawn="event: click; template: #cube-template; template2: #gui-template"
+            rotate-cursor-a
+            >
+            
+            </a-entity>
+
+
+            <!--<a-entity
+                id="myCursor"
+                animation__press="property: scale; startEvents: mousedown; easing: easeInCubic; dur: 100; from: 0.1 0.1 0.1; to: 0.01 0.01 0.01; dir: alternate"
+                animation__release="property: scale; startEvents: mouseup; easing: easeInCubic; dur: 100; from: 0.01 0.01 0.01; to: 0.1 0.1 0.1; dir: alternate"
+                
+                material="color: yellow; shader: flat"
+                
+                cursor="fuse: false"
+                 
+                scale = "0.1 0.1 0.1"
+                position="0 0 -3"
+                geometry="primitive: ring"
+                
+                intersection-spawn="event: click; template: #cube-template; template2: #gui-template">
+                
+               
+            </a-entity>-->
+            
+            <a-sphere class="head" visible="false" random-color> 
+                <!--<a-sphere class="head" visible="false" random-color id="aaaa" bodycheck></a-sphere> -->
+            </a-sphere>
+           
+            <!--<a-asset-item src="./assets/CustomAvatar.glb" class="head" visible="false"></a-asset-item>--> 
+                       
+        </a-entity>
+            
+        </a-entity>
+
+        
+
+        <!-- Templates -->
+        <a-assets>
+
+            <a-asset-item id="left-hand-model" src="./assets/Hands/leftHandHigh.glb"></a-asset-item>
+            <a-asset-item id="right-hand-model" src="./assets/Hands/rightHandHigh.glb"></a-asset-item>
+
+            <!--  Background Template  -->
+            <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg" crossorigin="anonymous">
+            <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg" crossorigin="anonymous">
+
+
+
+            <!-- Camera Rig / Player -->
+            <template id="camera-rig-template">
+                <a-entity></a-entity>
+            </template>
+
+
+            <!-- Avatar Template  -->
+            <template id="avatar-template">
+                <a-entity class="avatar" networked-audio-source>
+                    <!-- HEAD --> 
+                        <a-sphere class="head" scale="0.2 0.2 0.2">
+                            <!--<a-sphere class="head" position="0 -0.5 0" scale="0.1 0.1 0.1" rotation="0 0 0 " id="aaaa" bodycheck></a-sphere>-->
+                        </a-sphere>
+                        
+                    
+                    <!--<a-entity class="head" gltf-model="#avatar" scale="1 1 1" position="0 -0.7 0"></a-entity>-->
+                    <a-entity class="face" position="0 1 0">
+                    <!-- EYES -->
+                        <a-sphere class="eye" color="#efefef" position="0.07 -1 -0.16" scale="0.05 0.05 0.05">
+                            <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+                        </a-sphere>
+                        <a-sphere class="eye" color="#efefef" position="-0.07 -1 -0.16" scale="0.05 0.05 0.05">
+                            <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+                        </a-sphere>
+                    </a-entity>
+                </a-entity>
+            </template>
+
+            <!-- Hands -->
+            <template id="left-hand-template">
+             <a-entity>
+                <a-gltf-model class="tracked-left-hand" rotation="0 0 90" src="#left-hand-model"></a-gltf-model>
+             </a-entity>
+            </template>
+  
+            <template id="right-hand-template">
+             <a-entity>
+                <a-gltf-model class="tracked-right-hand" rotation="0 0 -90" src="#right-hand-model"></a-gltf-model>
+             </a-entity>
+               
+            </template>
+
+            <!--  Cube Template  -->
+            <template id="cube-template">
+                <!--<a-entity geometry="primitive: box; height: 0.5; depth: 0.5; width: 0.5" material="color: #DC3220" index
+                    polysynth></a-entity>-->
+                    <a-entity geometry="primitive: sphere; radius: 0.3" material="side: double; color: #005AB5; transparent: true; opacity: 0.1" index
+                    polysynth change-opacity-on-hover="#009dff"></a-entity>
+            </template>
+
+            <!-- GUI Template  -->
+            <template id="gui-template">
+                <a-entity indexgui>
+
+                    <!--Volume-->
+                    <!-- Panel -->
+                    <a-box position="-2.1 0.25 0" depth="0.1" height="0.5" width="0.6" color="#496982"></a-box>
+                    <!--<a-text position="-1.3 2.7 0.1" color="#000" value="Common GUI"></a-text>-->
+                    <!-- Volume -->
+                    <!--<a-entity test-it>-->
+                    <a-entity test-it>
+                        <a-text position="-2.29 0.36 0.1" color="#000" value="Volume" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="-2.18 0.2 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 0; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="-1.99 0.2 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 0; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="-1.99 0.36 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 0" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+                    <!--<a-text position="-1.3 1.2 0.1" color="#000" value="Envelope GUI"></a-text> -->
+
+                    <!--ADSR-->
+
+                    <!-- Panel -->
+                    <a-box position="0.0 -0.45 0" depth="0.1" height="0.7" width="1.2" color="#496982"></a-box>
+                    <!--<a-text position="-1.3 2.7 0.1" color="#000" value="Common GUI"></a-text>-->
+
+                    <!-- Attack -->
+                    <a-entity>
+                        <a-text position="-0.45 -0.23 0.1" color="#000" value="Attack" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="0.1 -0.23 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 1; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="0.25 -0.23 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 1; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="0.35 -0.23 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 1" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+                    <!-- Decay -->
+                    <a-entity>
+                        <a-text position="-0.45 -0.36 0.1" color="#000" value="Decay" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="0.1 -0.36 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 2; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="0.25 -0.36 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 2; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="0.35 -0.36 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 2" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+                    <!-- Sustain -->
+                    <a-entity>
+                        <a-text position="-0.45 -0.5 0.1" color="#000" value="Sustain" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="0.1 -0.5 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 3; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="0.25 -0.5 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 3; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="0.35 -0.5 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 3" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+                    <!-- Release -->
+                    <a-entity>
+                        <a-text position="-0.45 -0.65 0.1" color="#000" value="Release" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="0.1 -0.65 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 4; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="0.25 -0.65 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 4; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="0.35 -0.65 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 4" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+                    <!--EFFECTS-->
+                    <!-- Panel -->
+                    <a-box position="0.0 0.35 0" depth="0.1" height="0.6" width="1.2" color="#496982"></a-box>
+                    <!--<a-text position="-1.3 2.7 0.1" color="#000" value="Common GUI"></a-text>-->
+
+                    <!-- OTHER -->
+                    <a-entity>
+                        <a-text position="-0.45 0.5 0.1" color="#000" value="Filter Freq" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="0.1 0.5 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 5; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="0.25 0.5 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 5; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="0.35 0.5 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 5" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+                    <a-entity>
+                        <a-text position="-0.45 0.31 0.1" color="#000" value="Filter Q" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="0.1 0.31 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 6; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="0.25 0.31 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 6; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="0.35 0.31 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 6" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+                    <!-- Distortion -->
+                    <a-entity>
+                        <a-text position="-0.45 0.15 0.1" color="#000" value="Distortion" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="0.1 0.15 0.1" color="#882255" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 7; action: sub" change-color-on-hover-box="color: #e6097f"></a-box>
+                        <a-box position="0.25 0.15 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 7; action: add" change-color-on-hover-box="color: #0bd44e"></a-box>
+                        <a-text position="0.35 0.15 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 7" scale="0.35 0.35 0.35"></a-text>
+                    </a-entity>
+
+
+                    <!--WAVES-->
+                    <!-- Panel -->
+                    <a-box position="-1.2 0.25 0" depth="0.1" height="0.5" width="1" color="#496982"></a-box>
+                    <!--<a-text position="-1.3 2.7 0.1" color="#000" value="Common GUI"></a-text>-->
+
+                    <!-- OTHER2 -->
+                    <a-entity>
+                        <a-text position="-1.6 0.23 0.1" color="#000" value="Square Wave" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="-0.9 0.23 0.1" color="#943f1e" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 8; action: sub" change-color-on-hover-box="color: #ed6b0e"></a-box>
+                        <!--<a-box position="0.25 0.35 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 0; action: add"></a-box>-->
+                        <!--<a-text position="0.35 0.35 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 0" scale="0.35 0.35 0.35"></a-text>-->
+                    </a-entity>
+                    <!-- OTHER3 -->
+                    <a-entity>
+                        <a-text position="-1.6 0.36 0.1" color="#000" value="Sine Wave" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="-0.9 0.36 0.1" color="#943f1e" depth="0.025" height="0.1" width="0.1"
+                        setting-changer="settingindex: 9; action: sub" change-color-on-hover-box="color: #ed6b0e"></a-box>
+                        <!--<a-box position="0.25 -0.75 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 8; action: add"></a-box>-->
+                        <!--<a-text position="0.35 -0.75 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 8" scale="0.35 0.35 0.35"></a-text>-->
+                    </a-entity>
+                    <!-- OTHER3 -->
+                    <a-entity>
+                        <a-text position="-1.6 0.1 0.1" color="#000" value="Sawtooth Wave" scale="0.35 0.35 0.35"></a-text>
+                        <a-box position="-0.9 0.1 0.1" color="#943f1e" depth="0.025" height="0.1" width="0.1"
+                        setting-changer="settingindex: 10; action: sub" change-color-on-hover-box="color: #ed6b0e"></a-box>
+                        <!--<a-box position="0.25 -0.75 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 8; action: add"></a-box>-->
+                        <!--<a-text position="0.35 -0.75 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 8" scale="0.35 0.35 0.35"></a-text>-->
+                    </a-entity>
+                    <a-entity>
+                        <!--<a-text position="-1.6 0.1 0.1" color="#000" value="Sawtooth Wave" scale="0.35 0.35 0.35"></a-text>-->
+                        <!--<a-box position="-0.9 0.1 0.1" color="#bf5e19" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 11; action: chng" change-color-on-hover-box="color: #ed6b0e"></a-box>-->
+                        <a-entity change-wave="action: sawtooth"></a-entity>
+                        <!--<a-box position="0.25 -0.75 0.1" color="#117733" depth="0.025" height="0.1" width="0.1"
+                            setting-changer="settingindex: 8; action: add"></a-box>-->
+                        <!--<a-text position="0.35 -0.75 0.1" color="#000" depth="0.2" value="Num"
+                            text-changer="settingindex: 8" scale="0.35 0.35 0.35"></a-text>-->
+                    </a-entity>
+
+                    
+                </a-entity>
+            </template>
+
+            <!--  Note Selectors Template  -->
+            <!--<a-asset-item id="left-hand-model" src="./assets/leftHandHigh.glb"></a-asset-item>-->
+             <!--<a-asset-item id="right-hand-model" src="./assets/rightHandHigh.glb"></a-asset-item>-->
+             <a-asset-item id="plus-obj" src="./assets/3DUI/Signs/plus.obj"></a-asset-item>
+             <a-asset-item id="a-obj" src="./assets/3DUI/MusicNotes/note_A.glb"></a-asset-item>
+             <a-asset-item id="b-obj" src="./assets/3DUI/MusicNotes/note_B.glb"></a-asset-item>
+             <a-asset-item id="c-obj" src="./assets/3DUI/MusicNotes/note_C.glb"></a-asset-item>
+             <a-asset-item id="d-obj" src="./assets/3DUI/MusicNotes/note_D.glb"></a-asset-item>
+             <a-asset-item id="e-obj" src="./assets/3DUI/MusicNotes/note_E.glb"></a-asset-item>
+             <a-asset-item id="f-obj" src="./assets/3DUI/MusicNotes/note_F.glb"></a-asset-item>
+             <a-asset-item id="g-obj" src="./assets/3DUI/MusicNotes/note_G.glb"></a-asset-item>
+
+            <!--MY-AVATAR-->
+            <!--<a-asset-item id="avatar" src="./assets/CustomAvatar.glb"></a-asset-item>-->
+
+
+
+            <!-- Hands -->
+            <!-- <a-entity 
+                    networked-hand-controls="hand:left;color:gold;"networked="template:#left-hand-default-template">
+                </a-entity> -->
+            <!-- <a-gltf-model class="tracked-left-hand" rotation="0 0 90" src="#left-hand-model"></a-gltf-model> -->
+            <template id="left-hand-template" networked="template:#left-hand-template">
+                <!--<a-entity networked-hand-controls="hand:left;handModelStyle:controller;"networked="template:#left-hand-default-template"></a-entity>-->
+               <!-- tracked hand Left-->
+               <a-entity>
+               <a-gltf-model class="tracked-left-hand" rotation="0 0 90" position="0 0 0" src="#left-hand-model"></a-gltf-model>
+               </a-entity> 
+               <!-- oculus controllers -->
+               
+               
+           </template>
+
+           <!-- <a-gltf-model class="tracked-right-hand" rotation="0 0 -90" src="#right-hand-model"></a-gltf-model> -->
+           <!--<a-entity
+               networked-hand-controls="hand:right;handModelStyle:controller;"
+         networked="template:#right-hand-default-template">
+               </a-entity>-->
+           <template id="right-hand-template" networked="template:#right-hand-template" >
+                <!--<a-entity networked="template:#right-hand-template">-->
+                 <!--<a-entity networked-hand-controls="hand:right;handModelStyle:controller;"networked="template:#right-hand-default-template">-->
+              <!-- tracked hand right-->
+               <a-entity>
+                   <a-gltf-model class="tracked-right-hand" rotation="0 0 -90" position="0 0 0" src="#right-hand-model"></a-gltf-model>
+               </a-entity>
+         
+               
+               
+           </template>
+
+
+        </a-assets>
+
+
+
+        <!--<a-box collider-check class="doo" height="1" width="1" depth="1" position="0 1.5 0"></a-box>-->
+        <!--  Background  -->
+        <a-cylinder id="ground" src="#groundTexture" radius="52" height="0.1" collider-check class="doo"></a-cylinder> <!--mytest-->
+        <!--<a-cylinder id="ground1" radius="30" height="0.15"></a-cylinder>-->
+
+        <!--
+        <a-box height="1" width="1" depth="1" scale="1 1 1" color="red" id="mine" position="2 1 2" visible="true" getPosition></a-box>        
+        <a-box position="0 1.5 0" height="2" width="2" depth="2" material="color: #0a0a0a" collider-check class="doo"></a-box>
+        -->
+
+        <a-box position="30 0 30" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
+        <a-box position="30 0 -30" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
+        <a-box position="40 0 0" rotation="0 90 0" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
+        <a-box position="-40 0 0" rotation="0 90 0" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
+        <a-entity light="type: ambient; color: #CCC"></a-entity>
+    
+       <!-- <a-box id="mesh-floor" height="0.5" width="5" depth="5" position="0 0 0"  material="side: double; color: #2d7eef; transparent: true; opacity: 0.8" ></a-box>
+        <a-box id="mesh-floor" height="0.5" width="5" depth="5" position="0 0 0"  material="side: double; color: #2d7eef; transparent: true; opacity: 0.8" ></a-box>
+       -->
+
+        <a-sky id="background" src="#skyTexture" theta-length="90" radius="50"></a-sky>
+        <a-entity light="type: ambient; color: #CCC"></a-entity>
+
+        <!-- Metronome click on sphere to activate-->
+        <!--<a-sphere id="metronome" position="3 1.25 0" radius="1.25" color="#EF2D5E" step-seq="bpmvalue: 90" ></a-sphere>-->
+        
+        <!--Environment-->
+        <!--<a-entity light="type: ambient; color: #CCC"></a-entity>
+        <a-entity environment="preset: tron; groundColor: #445; grid: cross"></a-entity>-->
+
+
+        <!-- Note Selectors -->
+        <!--
+        <a-entity gltf-model="#a-obj" scale="0.5 0.5 0.5" position="-2 1 -3" note-mem="addnota: A"></a-entity> 
+        <a-entity gltf-model="#b-obj" scale="0.5 0.5 0.5" position="0 1 -3" note-mem="addnota: B"></a-entity> 
+        <a-entity gltf-model="#c-obj" scale="0.5 0.5 0.5" position="-12 1 -3" note-mem="addnota: C"></a-entity> 
+        <a-entity gltf-model="#d-obj" scale="0.5 0.5 0.5" position="-10 1 -3" note-mem="addnota: D"></a-entity> 
+        <a-entity gltf-model="#e-obj" scale="0.5 0.5 0.5" position="-8 1 -3" note-mem="addnota: E"></a-entity> 
+        <a-entity gltf-model="#f-obj" scale="0.5 0.5 0.5" position="-6 1 -3" note-mem="addnota: F"></a-entity> 
+        <a-entity gltf-model="#g-obj" scale="0.5 0.5 0.5" position="-4 1 -3" note-mem="addnota: G"></a-entity> 
+        -->
+
+        <a-entity geometry="primitive: sphere" position="-12 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: C" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#c-obj" scale="0.95 0.95 0.95" position="-12 1 -3" ></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="-10 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: D" change-opacity-on-hover="color: #009dff" id="spheretest"></a-entity>
+        <a-entity gltf-model="#d-obj" scale="0.95 0.95 0.95" position="-10 1 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="-8 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: E" change-opacity-on-hover="#009dff"> </a-entity>
+        <a-entity gltf-model="#e-obj" scale="0.95 0.95 0.95" position="-8 1 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="-6 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: F" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#f-obj" scale="0.95 0.95 0.95" position="-6 1 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="-4 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: G" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#g-obj" scale="0.95 0.95 0.95" position="-4 1 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="-2 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: A" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#a-obj" scale="0.95 0.95 0.95" position="-2 1 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="0 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: B" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#b-obj" scale="0.95 0.95 0.95" position="0 1 -3"></a-entity>
+
+
+
+        <!--  Array Infos  -->
+        <a-text position="2.5 2.5 -3" color="#FFF" value="Octave Selected:"></a-text>
+        <a-text position="4.3 2.5 -3" color="#FFF" value="4" id="valoreottava"></a-text>
+
+        <a-text position="-7
+         2.5 -3" color="#FFF" value="Note Selected:"></a-text>
+        <a-text position="-5.5 2.5 -3" color="#FFF" value="" id="notebox"></a-text>
+
+        <!--  Octave Changer  -->
+        <!--<a-text position="2.3 2.5 -3" color="#FFF" value="Reduce Octave"></a-text>-->
+        <!--<a-text position="5.3 2.5 -3" color="#FFF" value="Increase Octave"></a-text>-->
+        
+        <!-- change-color-on-hover-entity="initialColor: #d6d3d2; color: #e03610" 
+        material="color: #d6d3d2"-->
+        <a-entity material="side: double; color: #e03610; transparent: true; opacity: 0.1" geometry="primitive: box" position="3 1.5 -3" scale="0.4 0.2 0.2"
+            change-octave="action: sub" change-opacity-on-hover="color: #e03610"></a-entity>
+        <a-entity obj-model="obj: #plus-obj" material="side: double; color: #e03610; transparent: true; opacity: 0.1" position="4 1.5 -3" rotation="90 0 0" scale="0.1 0.1 0.1"
+            change-octave="action: add" change-opacity-on-hover="color: #e03610"></a-entity>
+
+        <!--  Array Cleaner  -->
+        <!--<a-text position="8.3 2.5 -3" color="#FFF" value="Clean Array"></a-text>-->
+        <a-entity material="side: double; color: #e03610; transparent: true; opacity: 0.1" obj-model="obj: #plus-obj" rotation="45 90 90" material="color: #d6d3d2"  position="3.5 0.8 -3" clear-array scale="0.1 0.1 0.1" change-opacity-on-hover="color: #e03610"></a-entity>
+
+        Tone.start();
+
+       
+    </a-scene>
+
+
+    <!--  External GUI 
+    <form style="position: absolute; top: 5px; border: 0; right: 5px;">
+        <label id="valoreottava" style="color: white;">Ottava selezionata: 4</label>
+        <br>
+        <input id="notebox" autocomplete="off" disabled type="text"
+            style="width: 200px; background: lightgray; color: black;">
+    </form> -->
+
+
+</body>
+
+</html>

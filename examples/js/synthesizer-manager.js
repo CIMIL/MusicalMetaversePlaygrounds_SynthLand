@@ -486,7 +486,7 @@ function sendTimeStamp(nameEvent){
 }
 
 ///////////////////////////
-/*
+
 //WIP
 AFRAME.registerComponent('rotate-cursor-a', {
     schema: {
@@ -496,13 +496,13 @@ AFRAME.registerComponent('rotate-cursor-a', {
       
       var data = this.data;
       var el = this.el;  // <a-box>
-      var getCursor = document.getElementById('thisCursor');
+      var getCursor = document.getElementById('myCursor');
       var checkit = false;
       var correctPosition = getCursor.getAttribute('position');
     }
 
   });
-*/
+
 /////////////////////////////////////////////////////////////////////////////
 
 //WIP
