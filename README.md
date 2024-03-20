@@ -1,6 +1,6 @@
 # MusicalMetaversePlaygrounds_SynthLand
 
-This is an implementation of the First Playground (aka "Synth Land") from the [Musical Metaverse Playgrounds]((https://github.com/CIMIL/MusicalMetaversePlaygrounds "MM Playgrounds").
+This is an implementation of the First Playground (aka "Synth Land") from the [Musical Metaverse Playgrounds](https://github.com/CIMIL/MusicalMetaversePlaygrounds "MM Playgrounds").
 
 __________________________________________________________________________________________________________________________________________
 
