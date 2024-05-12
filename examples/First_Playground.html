@@ -74,13 +74,13 @@
             this.el.addEventListener('raycaster-intersected', evt => {
                 this.raycaster = evt.detail.el;
                 let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
-                //console.log(`raycaster ${this.el.id} intersected`);
+                
                 getCursor.setAttribute('scale', {x: 0.1, y: 0.1, z: 0.1}); 
             });
             
             this.el.addEventListener('raycaster-intersected-cleared', evt => {
                 getCursor.setAttribute('scale', {x: 0.05, y: 0.05, z: 0.05});
-                //console.log(`raycaster ${this.el.id} cleared`);
+                
             });
         },
 
