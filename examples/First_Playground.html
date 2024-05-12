@@ -371,13 +371,17 @@
                           room: persistent-peer-to-peer; 
                           debug: true; 
                           audio: true; 
-                          adapter: easyrtc;">
+                          adapter: easyrtc;"
+                          environment="preset: tron; seed: 500; ground: spikes; groundYScale: 24; dressing: none; lightining: point; lightPosition: 1 3 0; playArea: 1.05; groundTexture: none; fog: 0.6; groundColor: #030303; groundColor2: #030303; horizonColor: #6E6E6E; gridColor: #00AFFA">
+    <!--environment="preset: tron; seed: 0; ground: spikes; dressing: none; lightining: point; lightPosition: 1 3 0; playArea: 1.2; groundTexture: none; fog: 0.6; groundColor: #b34093 groundColor2: #b34093"-->
+    <!--<a-entity environment="preset: forest; groundColor: #445; grid: cross"></a-entity>-->
     <a-entity 
         id="cameraRig" 
         movement-controls="speed:0.3;" 
-        tracked-vr-hands
+        
         spawn-in-circle="radius:3" 
         networked="template:#camera-rig-template;">
+        <!--tracked-vr-hands-->
         
     <!--  User + Camera  Moved over assets to prevent the injection of another camera  -->
     <a-entity id="player" 
@@ -635,20 +639,21 @@
         </a-assets>
 
         <!--  Background  -->
-        <a-cylinder id="ground" src="#groundTexture" radius="52" height="0.1" collider-check class="doo"></a-cylinder> <!--checkTiles-->
+        <!--<a-cylinder id="ground" src="#groundTexture" radius="52" height="0.1" collider-check class="doo"></a-cylinder>--> <!--checkTiles-->
+        <a-cylinder id="ground" position="-2.25 0.1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.0" radius="52" height="0.1" collider-check class="doo"></a-cylinder>
 
-        <a-box position="30 0 30" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
+        <!--<a-box position="30 0 30" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
         <a-box position="30 0 -30" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
         <a-box position="40 0 0" rotation="0 90 0" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
-        <a-box position="-40 0 0" rotation="0 90 0" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>
+        <a-box position="-40 0 0" rotation="0 90 0" height="18" width="150" depth="2" material="color: #0a0a0a"></a-box>-->
         
         <a-entity light="type: ambient; color: #CCC"></a-entity>
     
-        <a-sky id="background" src="#skyTexture" theta-length="90" radius="50"></a-sky>
+        <!--<a-sky id="background" src="#skyTexture" theta-length="90" radius="50"></a-sky>-->
         
-        <a-entity light="type: ambient; color: #CCC"></a-entity>
+        <!--<a-entity light="type: ambient; color: #CCC"></a-entity>-->
 
-        <a-entity geometry="primitive: sphere" position="-12 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: C" change-opacity-on-hover="#009dff"></a-entity>
+        <!--<a-entity geometry="primitive: sphere" position="-12 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: C" change-opacity-on-hover="#009dff"></a-entity>
         <a-entity gltf-model="#c-obj" scale="0.95 0.95 0.95" position="-12 1 -3" ></a-entity>
 
         <a-entity geometry="primitive: sphere" position="-10 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: D" change-opacity-on-hover="color: #009dff" id="spheretest"></a-entity>
@@ -668,23 +673,49 @@
 
         <a-entity geometry="primitive: sphere" position="0 1 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.8 0.8 0.8" note-mem="addnota: B" change-opacity-on-hover="#009dff"></a-entity>
         <a-entity gltf-model="#b-obj" scale="0.95 0.95 0.95" position="0 1 -3"></a-entity>
+        -->
+
+        <a-entity geometry="primitive: sphere" position="-1.5 3 -3.5" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.65 0.65 0.65" note-mem="addnota: C" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#c-obj" scale="0.9 0.9 0.9" position="-1.5 3 -3.5" ></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="0 3 -3.5" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.65 0.65 0.65" note-mem="addnota: D" change-opacity-on-hover="color: #009dff" id="spheretest"></a-entity>
+        <a-entity gltf-model="#d-obj" scale="0.9 0.9 0.9" position="0 3 -3.5"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="1.5 3 -3.5" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.65 0.65 0.65" note-mem="addnota: E" change-opacity-on-hover="#009dff"> </a-entity>
+        <a-entity gltf-model="#e-obj" scale="0.9 0.9 0.9" position="1.5 3 -3.5"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="-2.25 1.5 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.6 0.6 0.6" note-mem="addnota: F" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#f-obj" scale="0.9 0.9 0.9" position="-2.25 1.5 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="-0.75 1.5 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.6 0.6 0.6" note-mem="addnota: G" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#g-obj" scale="0.9 0.9 0.9" position="-0.75 1.5 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="0.75 1.5 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.6 0.6 0.6" note-mem="addnota: A" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#a-obj" scale="0.9 0.9 0.9" position="0.75 1.5 -3"></a-entity>
+
+        <a-entity geometry="primitive: sphere" position="2.25 1.5 -3" material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" scale="0.6 0.6 0.6" note-mem="addnota: B" change-opacity-on-hover="#009dff"></a-entity>
+        <a-entity gltf-model="#b-obj" scale="0.9 0.9 0.9" position="2.25 1.5 -3"></a-entity>
+
 
         <!--  Array Infos  -->
-        <a-text position="2.5 2.5 -3" color="#FFF" value="Octave Selected:"></a-text>
-        <a-text position="4.3 2.5 -3" color="#FFF" value="4" id="octaveValue"></a-text>
+        <a-text position="4. 0.36 -2.9" color="#FFF" value="Octave Selected:" rotation="-30 0 0"></a-text>
+        <a-text position="5.9 0.36 -2.9" color="#FFF" value="4" id="octaveValue" rotation="-30 0 0"></a-text>
 
-        <a-text position="-7
-         2.5 -3" color="#FFF" value="Note Selected:"></a-text>
-        <a-text position="-5.5 2.5 -3" color="#FFF" value="" id="notebox"></a-text>
+        <a-text position="-1.7 0.44 -2.9" color="#FFF" value="Note Selected:" rotation="-30 0 0"></a-text>
+        <a-text position="0 0.44 -2.9" color="#FFF" value="" id="notebox" rotation="-30 0 0"></a-text>
+        <a-box material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" depth="0.1" height="0.5" width="4" position="0 0.36 -3." rotation="-30 0 0"></a-box>
 
-        <a-entity material="side: double; color: #e03610; transparent: true; opacity: 0.1" geometry="primitive: box" position="3 1.5 -3" scale="0.4 0.2 0.2"
+        <a-entity material="side: double; color: #e03610; transparent: true; opacity: 0.1" geometry="primitive: box" position="4.5 1.9 -3" scale="0.4 0.2 0.2"
             change-octave="action: sub" change-opacity-on-hover="color: #e03610"></a-entity>
-        <a-entity obj-model="obj: #plus-obj" material="side: double; color: #e03610; transparent: true; opacity: 0.1" position="4 1.5 -3" rotation="90 0 0" scale="0.1 0.1 0.1"
+        <a-entity obj-model="obj: #plus-obj" material="side: double; color: #e03610; transparent: true; opacity: 0.1" position="5.5 1.9 -3" rotation="90 0 0" scale="0.1 0.1 0.1"
             change-octave="action: add" change-opacity-on-hover="color: #e03610"></a-entity>
-
+        
+        <a-cylinder material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" height="0.1" radius="1" position="5.1 1.7 -3.1" rotation="90 0 0"></a-cylinder>
+        
         <!--  Array Cleaner  -->
-        <a-entity material="side: double; color: #e03610; transparent: true; opacity: 0.1" obj-model="obj: #plus-obj" rotation="45 90 90" material="color: #d6d3d2"  position="3.5 0.8 -3" clear-array scale="0.1 0.1 0.1" change-opacity-on-hover="color: #e03610"></a-entity>
-
+        <a-entity material="side: double; color: #e03610; transparent: true; opacity: 0.1" obj-model="obj: #plus-obj" rotation="45 90 90" material="color: #d6d3d2"  position="5 1.2 -3" clear-array scale="0.1 0.1 0.1" change-opacity-on-hover="color: #e03610"></a-entity>
+        <a-box material="side: double; color: #2d7eef; transparent: true; opacity: 0.1" depth="0.1" height="0.5" width="2.5" position="5.1 0.36 -3." rotation="-30 0 0"></a-box>
+        
         Tone.start();
     </a-scene>
 
