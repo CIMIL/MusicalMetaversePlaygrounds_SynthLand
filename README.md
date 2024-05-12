@@ -4,7 +4,7 @@ This is an implementation of the First Playground (aka "Synth Land") from the [M
 
 __________________________________________________________________________________________________________________________________________
 
-<h2>How to use</h2>
+<h2>How to:</h2>
 
 * Clone the repository
 
